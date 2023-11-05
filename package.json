@@ -1,0 +1,14 @@
+{
+  "name": "whitelistscript",
+  "version": "1.0.0",
+  "description": "A script to generate whitelist.json from array of usernames",
+  "type": "module",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./lib/index.js",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC"
+}
