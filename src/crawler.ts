@@ -6,9 +6,13 @@ const crawler = new PlaywrightCrawler({
     // This function is called to extract data from a single web page
     // 'page' is an instance of Playwright.Page with page.goto(request.url) already called
     // 'request' is an instance of Request class with information about the page to load
-    const gamertagInput = page.locator(".form-control");
-    console.log(gamertagInput)
-    console.log(request.url)
+    const gamertagInput = page.locator(`[name="gamertag"]`);
+    const submitBtn = page.locator(`[title="Get XUID"]`)
+    await gamertagInput.fill("cytron499");
+    await submitBtn.click()
+    console.log(await page.locator(`[id="xuidHex"]`).textContent());
+    // value to select on succesfull request id="xuidHex"
+    console.log(request.url);
   },
   async failedRequestHandler({ request }) {
     // This function is called when the crawling of a request failed too many times
