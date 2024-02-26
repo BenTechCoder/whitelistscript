@@ -11,21 +11,7 @@
 ]
 */
 
-interface IWhitelist {
-  uuid: string;
-  name: string;
-}
-
-const whitelist: string[] = [
-  "Cyb3rBac0n",
-  "Herobrine3953",
-  "DREW_BONKERS_",
-  "starpilot999",
-  "SoliasDream",
-  "FIREPILOT22",
-  "Flintsteel351",
-  "cytron499",
-];
+import { IWhitelist, whitelist } from "./whitelist.ts";
 
 const finished: IWhitelist[] = [];
 
@@ -33,9 +19,11 @@ async function fetchUUID(name: string) {
   const response = await fetch(
     `https://playerdb.co/api/player/minecraft/${name}`
   );
-  const UUID = await response.json();
-  // console.log(await UUID.data.player.raw_id)
-  return await UUID.data.player.raw_id;
+
+  // TODO: FIX the "any" workaround
+  const UUID: any = await response.json();
+  // console.log(await UUID.data.player.id)
+  return await UUID.data.player.id;
 }
 
 async function jsonGen() {
@@ -44,11 +32,17 @@ async function jsonGen() {
       uuid: `${await fetchUUID(name)}`,
       name: `${name}`,
     });
+    // finished.push({
+    //   uuid: `${await fetchUUID(name)}`,
+    //   name: `.${name}`,
+    // });
   }
   // console.log(finished);
   return finished;
 }
 
+console.log(await jsonGen());
 
 
-console.log(await jsonGen())
+export { };
+
