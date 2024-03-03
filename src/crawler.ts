@@ -1,22 +1,36 @@
 import { PlaywrightCrawler } from "crawlee";
-import { whitelist } from "./whitelist.ts";
+import { whitelist, IWhitelist } from "./whitelist.ts";
+
+let UUIDs: IWhitelist[] = [];
 
 const crawler = new PlaywrightCrawler({
-  headless: false,
+  headless: true,
+  //navigationTimeoutSecs: 1500,
   async requestHandler({ page }) {
     for (const name of whitelist) {
       const gamertagInput = page.locator(".form-control");
       const submitBtn = page.locator(`#search-submit`);
       await gamertagInput.fill(name);
       await submitBtn.click();
-      if (await page.locator("table").isVisible()) {
+      const logicGate = await page.content();
+      if (
+        logicGate
+          .toString()
+          .includes(`<title>MCProfile - Account Not Found</title>`)
+      ) {
+        await page.locator(".btn-primary").click();
+      } else {
         const UUID = await page
           .locator('tr:has-text("Floodgate UUID") td code')
           .innerText();
-        console.log(UUID);
+        UUIDs.push({
+          uuid: UUID.toString(),
+          name: `.${name}`,
+        });
+        await page.locator(".btn-primary").click();
       }
-        await page.locator('.btn-primary').click();
     }
+    console.log(UUIDs);
   },
   async failedRequestHandler({ request }) {
     // This function is called when the crawling of a request failed too many times
@@ -25,15 +39,3 @@ const crawler = new PlaywrightCrawler({
 });
 
 await crawler.run(["https://mcprofile.io/"]);
-
-/*
-
-   const gamertagInput = page.locator(`[name="gamertag"]`);
-    const submitBtn = page.locator(`[title="Get XUID"]`);
-    await gamertagInput.fill("cytron499");
-    await submitBtn.click();
-    // const UUIDHex = page.locator(`[id="xuidHex"]`)
-    //const UUID:string = `00000000-0000-0000-${Array.from(UUIDHex).slice(0,3).join("")}-${(Array.from(UUIDHex).slice(4).join(""))})`
-    console.log(await page.locator(`[id="xuidHex"]`).textContent());
-    // value to select on succesfull request id="xuidHex"
-*/
