@@ -3,12 +3,25 @@
   "version": "1.0.0",
   "description": "A script to generate whitelist.json from array of usernames",
   "type": "module",
-  "main": "index.ts",
+  "main": "/dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./lib/index.js",
+    "start": "ts-node-esm -T src/index.ts",
+    "start:script": "ts-node-esm -T src/crawler.ts",
+    "start:crawler": "ts-node-esm -T src/index.ts",
     "build": "tsc"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@apify/tsconfig": "^0.1.0",
+    "@types/better-sqlite3": "^7.6.9",
+    "@types/node": "^20.11.20",
+    "ts-node": "^10.9.2"
+  },
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "crawlee": "^3.8.1",
+    "playwright": "^1.41.2"
+  }
 }
