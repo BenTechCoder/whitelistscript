@@ -17,11 +17,13 @@
     "@apify/tsconfig": "^0.1.0",
     "@types/better-sqlite3": "^7.6.9",
     "@types/node": "^20.11.20",
+    "@types/shelljs": "^0.8.15",
     "ts-node": "^10.9.2"
   },
   "dependencies": {
     "better-sqlite3": "^9.4.3",
     "crawlee": "^3.8.1",
-    "playwright": "^1.41.2"
+    "playwright": "^1.41.2",
+    "shelljs": "^0.8.5"
   }
 }

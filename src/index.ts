@@ -12,24 +12,14 @@
 */
 
 import { IWhitelist, whitelist } from "./whitelist.ts";
-
+import fetchJavaUUID from "./fetchJavaUUID.ts";
 const finished: IWhitelist[] = [];
 
-async function fetchUUID(name: string) {
-  const response = await fetch(
-    `https://playerdb.co/api/player/minecraft/${name}`
-  );
-
-  // TODO: FIX the "any" workaround
-  const UUID: any = await response.json();
-  // console.log(await UUID.data.player.id)
-  return await UUID.data.player.id;
-}
 
 async function jsonGen() {
   for (const name of whitelist) {
     finished.push({
-      uuid: `${await fetchUUID(name)}`,
+      uuid: `${await fetchJavaUUID(name)}`,
       name: `${name}`,
     });
     // finished.push({
@@ -43,6 +33,6 @@ async function jsonGen() {
 
 console.log(await jsonGen());
 
-
-export { };
+// something something for workaround I forgot lol
+export { fetchJavaUUID };
 
