@@ -4,9 +4,7 @@ import fetchJavaUUID from "./fetchJavaUUID.ts";
 import { addPlayer } from "./db/db.ts";
 const name = process.argv[2];
 
-export async function fetchBedrockUUID(
-  name: string
-): Promise<string | null | any> {
+export async function fetchBedrockUUID(name: string): Promise<string | null> {
   const crawler = new PlaywrightCrawler({
     headless: true,
     maxConcurrency: 1,
@@ -48,18 +46,15 @@ export async function fetchBedrockUUID(
   return await KeyValueStore.getValue("OUTPUT");
 }
 
-
 async function add2DB(name: string) {
   let javaUUID: string = await fetchJavaUUID(name);
   let bedrockUUID: any = await fetchBedrockUUID(name);
-  addPlayer(name, javaUUID, bedrockUUID)
+  addPlayer(name, javaUUID, bedrockUUID);
   console.log(` added with ${javaUUID}, ${bedrockUUID}`);
-  return `added with ${javaUUID}, ${bedrockUUID}`
+  return `added with ${javaUUID}, ${bedrockUUID}`;
 }
 
-
-await add2DB(name)
-
+await add2DB(name);
 
 // const lol = await fetchBedrockUUID("FIREPILOT22");
 // console.log(lol)

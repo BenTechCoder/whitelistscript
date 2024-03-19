@@ -12,27 +12,30 @@
 */
 
 import { IWhitelist, whitelist } from "./whitelist.ts";
-import fetchJavaUUID from "./fetchJavaUUID.ts";
+import { queryPlayer } from "./db/db.ts";
 const finished: IWhitelist[] = [];
-
 
 async function jsonGen() {
   for (const name of whitelist) {
-    finished.push({
-      uuid: `${await fetchJavaUUID(name)}`,
-      name: `${name}`,
-    });
-    // finished.push({
-    //   uuid: `${await fetchUUID(name)}`,
-    //   name: `.${name}`,
-    // });
+    const player = await queryPlayer(name);
+    if (player?.java_uuid !== undefined) {
+      finished.push({
+        uuid: `${player.java_uuid}`,
+        name: `${name}`,
+      });
+    }
+    if (player?.bedrock_uuid !== "none") {
+      finished.push({
+        uuid: `${player?.bedrock_uuid}`,
+        name: `.${name}`,
+      });
+    }
   }
-  // console.log(finished);
+  console.log(finished);
   return finished;
 }
 
 console.log(await jsonGen());
 
 // something something for workaround I forgot lol
-export { fetchJavaUUID };
-
+export {};

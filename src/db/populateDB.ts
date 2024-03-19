@@ -4,4 +4,5 @@ import shell from "shelljs";
 
 for (let i = 0; i < whitelist.length; i++) {
   shell.exec(`npx ts-node-esm src/crawler.ts ${whitelist[i]}`);
+  console.log(`added ${whitelist[i]}`);
 }
