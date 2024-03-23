@@ -12,6 +12,7 @@ const whitelist: string[] = [
   "FIREPILOT22",
   "Flintsteel351",
   "cytron499",
+  "GiraffeCurls"
 ];
 
 export { IWhitelist, whitelist };

@@ -1,11 +1,12 @@
 export default async function fetchJavaUUID(name: string) {
-    const response = await fetch(
-      `https://playerdb.co/api/player/minecraft/${name}`
-    );
-  
-    // TODO: FIX the "any" workaround
-    const UUID: any = await response.json();
-    // console.log(await UUID.data.player.id)
+  const response = await fetch(
+    `https://playerdb.co/api/player/minecraft/${name}`
+  );
+
+  const UUID = await response.json();
+  if (UUID.success === true) {
     return await UUID.data.player.id;
+  } else {
+    return "none";
   }
-  
+}
